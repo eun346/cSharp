@@ -1,0 +1,40 @@
+# This code is for updating the clocktime to current time in unity
+
+
+using System;
+using TMPro;
+using UnityEngine;
+
+public class clockTime : MonoBehaviour
+{
+    public Transform hourHand;
+    public Transform minuteHand;
+    public Transform secondHand;
+
+
+    void Start()
+    {
+        // Set initial time when the clock starts
+        UpdateClock();
+    }
+
+    void Update()
+    {
+        UpdateClock();
+    }
+
+    void UpdateClock()
+    {
+        DateTime now = DateTime.Now;
+
+        // Calculate angles
+        float secondsAngle = now.Second * 6f; // 360 / 60
+        float minutesAngle = (now.Minute + now.Second / 60f) * 6f;
+        float hoursAngle = (now.Hour % 12 + now.Minute / 60f) * 30f; // 360 / 12
+
+        // Rotate hands CLOCKWISE (positive Z rotation in Unity)
+        secondHand.localRotation = Quaternion.Euler(0f, 0f, secondsAngle);
+        minuteHand.localRotation = Quaternion.Euler(0f, 0f, minutesAngle);
+        hourHand.localRotation = Quaternion.Euler(0f, 0f, hoursAngle);
+    }
+}
